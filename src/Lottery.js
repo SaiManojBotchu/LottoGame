@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Ball from './Ball';
+import './Lottery.css';
 
 class Lottery extends Component {
   static defaultProps = {
@@ -9,21 +10,31 @@ class Lottery extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      nums: [1, 2, 3, 4, 5, 6],
-    };
+    this.state = {nums: Array.from({length: this.props.numBalls})};
     this.generate = this.generate.bind(this);
   }
 
+  // generate() {
+  //   const newArray = this.state.nums.map(n => Math.floor(Math.random() * this.props.maxNum) + 1);
+  //   this.setState({nums : newArray});
+  // }
+  // generate() {
+  //   this.setState(curState => {
+  //     return { nums: curState.nums.map(n => Math.floor(Math.random() * this.props.maxNum) + 1) }
+  //   });
+  // }
   generate() {
-    const newArray = this.state.nums.map(n => Math.floor(Math.random() * this.props.maxNum) + 1);
-    this.setState({nums : newArray});
+    this.setState(curState => ({ 
+      nums: curState.nums.map(n => Math.floor(Math.random() * this.props.maxNum) + 1)
+    }));
   }
   render() {
     return (
-      <div>
+      <div className="Lottery">
         <h1>{this.props.title}</h1>
-        {this.state.nums.map(n => <Ball num={n} />)}
+        <div>
+          {this.state.nums.map(n => <Ball num={n} />)}  
+        </div>
         <button onClick={this.generate}>Generate</button>
       </div>
     );
